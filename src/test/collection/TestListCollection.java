@@ -120,4 +120,29 @@ public class TestListCollection {
         String  performanceLinkedList = ""+listCollection.performanceArrayVsLinked(listNations, 2);
         System.out.println(performanceArrayList);
     }
+
+    @Test
+    public void testMap(){
+        listCollection = new ListCollection();
+        List<String> listItaly = new ArrayList<String>();
+        listItaly.add("Inter");
+        listItaly.add("Bologna");
+        listItaly.add("Fiorentina");
+        listItaly.add("Roma");
+        listItaly.add("Juventus");
+        listItaly.add("Napoli");
+        List<String> listEngland= new ArrayList<String>();
+        listEngland.add("Arsenal");
+        listEngland.add("ManchesterCity");
+        listEngland.add("ManchesterUnited");
+        listEngland.add("Liverpool");
+        listEngland.add("Leeds");
+        listEngland.add("Watford");
+        Map<String, List<String>> listTeams = new HashMap<String, List<String>>();
+        listTeams.put("Italy", listItaly);
+        listTeams.put("England", listEngland);
+        listItaly = listCollection.extractTeam(listTeams, "Italy");
+        assertEquals(listItaly.getFirst(), "Inter");
+
+    }
 }

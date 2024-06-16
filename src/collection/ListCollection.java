@@ -2,9 +2,7 @@ package collection;
 
 
 import java.time.Duration;
-import java.time.Instant;
 import java.time.LocalTime;
-import java.time.temporal.Temporal;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -86,6 +84,17 @@ public class ListCollection {
         LocalTime start = LocalTime.now();
         LocalTime end = LocalTime.now();
         return ""+Duration.between(start, end).toNanos();
+    }
+
+    // THIS IS A MAP
+    public List<String> extractTeam (Map<String, List<String>> listTeams, String keys) {
+        Optional<Map<String, List<String>>> optional = Optional.ofNullable(listTeams);
+        if (optional.isPresent()){
+            return optional.get().get(keys).stream().toList();
+        }
+        else{
+            throw new NullPointerException();
+        }
     }
 
 
