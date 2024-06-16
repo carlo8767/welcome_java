@@ -1,11 +1,10 @@
 package polymorphism;
 
-import javax.swing.text.html.Option;
-import java.util.Collection;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Book {
 
@@ -20,21 +19,38 @@ public class Book {
     }
 
 
-    // POLYMORPHISM OVERLOADING
+    // POLYMORPHISM OVERLOADING SAME SIGNATURE DIFFERENT PARAMETER
     public List<String> extractBookTitle (List<Book> list){
-
         List<String> listTitle;
-        Optional<List<Book>> listOptional = Optional.of(list);
-            if (listOptional.get().isEmpty()){
-                throw  new NullPointerException();
+        // OPTIONAL VERIFY IF AN ELEMENT IS NULL
+        Optional<List<Book>> listOptional = Optional.ofNullable(list);
+            if (listOptional.isPresent()){
+                listTitle =  listOptional.get().stream()
+                        .map(Book::getTitle)
+                        .filter(xTitle -> !xTitle.isEmpty())
+                        .toList();
+                if (listTitle.isEmpty()){
+                    throw new NoSuchElementException();
+                }
+                else{
+                    return  listTitle;
+                }
+
             }
             else{
-                listTitle =  list.stream().map(Book::getTitle)
-                        .toList();
-                return  listTitle;
+                throw new NullPointerException();
             }
         }
 
+    public String extractBookTitle (Book book){
+        Optional<Book> optionalBook = Optional.ofNullable(book);
+        if (optionalBook.isPresent()){
+            return optionalBook.get().getTitle();
+        }
+        else {
+            throw new NullPointerException();
+        }
+    }
 
     public UUID getUuid() {
         return uuid;

@@ -6,6 +6,7 @@ import polymorphism.Book;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.UUID;
 import static org.junit.Assert.*;
 
@@ -13,9 +14,10 @@ public class TestBook {
 
 
     Book books;
+    List<Book> listBook;
 
     @Test
-    public void extractBookTitleListNotEmpty (){
+    public void testExtractListBooks (){
         List<Book> listBook = new ArrayList<Book>();
         listBook.add(new Book(UUID.randomUUID(), "fakeTitleOne", "fakeAuthorOne"));
         listBook.add(new Book(UUID.randomUUID(), "fakeTitleTwo", "fakeAuthorTwo"));
@@ -25,27 +27,49 @@ public class TestBook {
     }
 
     @Test
-    public void extractBookTitleListEmpty (){
-        String aspect;
+    public void testExtractBookTitleNull (){
+        String valueAspect;
         try{
-            List<Book> listBook = new ArrayList<Book>();
             books = new Book(UUID.randomUUID(), "","");
             List<String> listTitle = books.extractBookTitle(listBook);
-            aspect ="NotThrowNullPointerException";
-            assertEquals("NullPointerException", aspect);
+            valueAspect ="NotThrowNullPointerException";
+            assertEquals("NullPointerException", valueAspect);
 
         }
         catch(NullPointerException nullPointerException){
-            aspect = "NullPointerException";
-            assertEquals("NullPointerException", aspect);
+            valueAspect = "NullPointerException";
+            assertEquals("NullPointerException", valueAspect);
         }
-
 
     }
 
+    @Test
+    public void testExtractListBookNotFullEmpty (){
+        List<Book> listBook = new ArrayList<Book>();
+        listBook.add(new Book(UUID.randomUUID(), "fakeTitleOne", "fakeAuthorOne"));
+        listBook.add(new Book(UUID.randomUUID(), "", ""));
+        listBook.add(new Book(UUID.randomUUID(), "fakeTitleThree", "fakeAuthorThree"));
+        books = new Book(UUID.randomUUID(), "","");
+        List<String> listTitle = books.extractBookTitle(listBook);
+        assertEquals(2, listTitle.size());
+    }
 
+    @Test
+    public void testExtractListBookEmpty (){
+        String valueAspect;
+        try {
+            List<Book> listBook = new ArrayList<Book>();
+            listBook.add(new Book(UUID.randomUUID(), "", ""));
+            books = new Book(UUID.randomUUID(), "","");
+            List<String> listTitle = books.extractBookTitle(listBook);
+            valueAspect ="NotNoSuchElementException";
+            assertEquals("NoSuchElementException", valueAspect);
+        }
+        catch (NoSuchElementException e) {
+            valueAspect ="NoSuchElementException";
+            assertEquals("NoSuchElementException", valueAspect);
+        }
 
-
-
+    }
 
 }
