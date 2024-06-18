@@ -7,12 +7,13 @@ public class SellHouseRunnable implements  Runnable{
             System.out.println("We are selling the house");
             try {
 
-                Thread.sleep(2000);
+                Thread.sleep(1000);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
         }
     }
+
 }
 
 

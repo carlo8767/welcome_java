@@ -1,5 +1,6 @@
 package polymorphism;
 
+import java.lang.reflect.Array;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -19,7 +20,14 @@ public class Book {
     }
 
 
-    // POLYMORPHISM OVERLOADING SAME SIGNATURE DIFFERENT PARAMETER
+
+    // POLYMORPHISM OVERLOADING
+    // SAME SIGNATURE DIFFERENT PARAMETER
+    public List<String> extractBookTitle (Book book, List<String> listbook){
+        listbook.add(book.getTitle());
+        return listbook ;
+    }
+
     public List<String> extractBookTitle (List<Book> list){
         List<String> listTitle;
         // OPTIONAL VERIFY IF AN ELEMENT IS NULL
@@ -41,6 +49,8 @@ public class Book {
                 throw new NullPointerException();
             }
         }
+
+
 
     public String extractBookTitle (Book book){
         Optional<Book> optionalBook = Optional.ofNullable(book);
