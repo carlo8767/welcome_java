@@ -1,6 +1,6 @@
 package functional_interface;
 
-public class TryRunnbale {
+public class TryRunnable {
 
 
     public static void main (String[] args){

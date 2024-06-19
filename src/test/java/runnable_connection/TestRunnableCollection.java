@@ -1,8 +1,9 @@
-package test.runnable_connection;
+package runnable_connection;
 
 import functional_interface.BuildHouseRunnable;
 import functional_interface.SellHouseRunnable;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
 
 public class TestRunnableCollection {
 

@@ -1,11 +1,14 @@
-package test.inheritance;
+package inheritance;
 
 import inheritance.Animal;
 import inheritance.Cat;
 import inheritance.Dog;
 import inheritance.ServiceAnimal;
-import org.junit.Test;
-import static org.junit.Assert.*;
+
+import org.junit.jupiter.api.Test;
+
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 public class TestAnimal {
@@ -18,7 +21,7 @@ public class TestAnimal {
         serviceAnimal = new ServiceAnimal();
         serviceAnimal.setStrategySound(animal);
         String sound = serviceAnimal.executeStrategy();
-        assertEquals("should be miaow", sound,"miaow");
+        assertEquals("miaow", sound,"should be miaow");
     }
 
     @Test
@@ -27,6 +30,6 @@ public class TestAnimal {
         serviceAnimal = new ServiceAnimal();
         serviceAnimal.setStrategySound(animal);
         String sound = serviceAnimal.executeStrategy();
-        assertEquals("should be bau", sound,"bau");
+        assertEquals("bau", sound,"should be bau");
     }
 }

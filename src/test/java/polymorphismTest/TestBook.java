@@ -1,14 +1,17 @@
-package test.polymorphismTest;
+package polymorphismTest;
 
 
-import org.junit.Test;
+
+import org.junit.jupiter.api.Test;
 import polymorphism.Book;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
-import static org.junit.Assert.*;
+
+import static org.junit.jupiter.api.Assertions.*;
+
 
 public class TestBook {
 
@@ -23,7 +26,7 @@ public class TestBook {
         listBook.add(new Book(UUID.randomUUID(), "fakeTitleTwo", "fakeAuthorTwo"));
         books = new Book(UUID.randomUUID(), "","");
         List<String> listTitle = books.extractBookTitle(listBook);
-        assertNotNull("Is empty", listTitle);
+        assertNotNull(listTitle, "is empty");
     }
 
     @Test
