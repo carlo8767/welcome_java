@@ -4,7 +4,8 @@ import java.util.List;
 
 public class VoteComparator{
 
-
+    // COMPARATOR CONTAINS A COMPARE METHOD
+    // TO SORT A LIST BASE ON 
     String name;
     Integer vote;
 

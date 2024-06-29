@@ -2,6 +2,9 @@ package functional_interface;
 
 import java.util.List;
 
+
+// THE INTERFACE CONSUMER PROVIDES A METHOD ACCEPT
+//  THAT TAKES A GENERIC TYPE T AND RETURN NO RESULT
 public class ConsumerNations {
 
 

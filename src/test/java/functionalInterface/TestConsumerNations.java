@@ -4,13 +4,11 @@ import functional_interface.ConsumerNations;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.function.Consumer;
-import java.util.stream.Collectors;
+
 
 public class TestConsumerNations {
-
 
     ConsumerNations consumerNations;
 
@@ -22,6 +20,7 @@ public class TestConsumerNations {
         listNations.add("Galles");
         consumerNations = new ConsumerNations();
         consumerNations.setListNations(listNations);
+        // WE USE CONSUMER TO PRINT ALL THE NATIONS
         Consumer<ConsumerNations> consumerNationsLetter = x -> x.getListNations()
                 .forEach(System.out::println);
         consumerNationsLetter.accept(consumerNations);
