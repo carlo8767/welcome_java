@@ -7,7 +7,6 @@ import org.junit.Test;
 
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 
 public class TestPredicateElection {
@@ -51,7 +50,17 @@ public class TestPredicateElection {
     }
 
 
+    // YOU CAN USE REDUCE TO PERFORM VARIOUS OPERATION IN PARALLEL
+    @Test
+    public void sumOperation (){
+        Map<String, Integer> unitedStates = new HashMap<String, Integer>();
+        unitedStates.put("Ohio",6000);
+        unitedStates.put("Texax", 1000);
+        unitedStates.put(("California"),1000);
+        Integer sumNation =  unitedStates.entrySet().stream().map(Map.Entry::getValue)
+                .reduce(0, Integer::sum);
+        assertEquals(8000,sumNation);
 
 
-
-}
+        }
+    }
