@@ -1,4 +1,4 @@
-package functional_interface;
+package hello_thread;
 
 public class TryRunnable {
 

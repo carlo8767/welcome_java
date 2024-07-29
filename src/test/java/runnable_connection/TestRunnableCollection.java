@@ -1,7 +1,7 @@
 package runnable_connection;
 
-import functional_interface.BuildHouseRunnable;
-import functional_interface.SellHouseRunnable;
+import hello_thread.BuildHouseRunnable;
+import hello_thread.SellHouseRunnable;
 import org.junit.jupiter.api.Test;
 
 
