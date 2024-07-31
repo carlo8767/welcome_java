@@ -13,4 +13,7 @@ public class PredicateServiceElection  {
         return predicateElection.test(valueVote);
     }
 
+
+
+
 }
