@@ -1,14 +1,13 @@
 package functionalInterface;
 
 import functional_interface.FunctionalElection;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
-import static org.junit.Assert.assertEquals;
 
 public class TestFunctionNations {
 
@@ -24,7 +23,7 @@ public class TestFunctionNations {
         mapNationsVote.put("Ohio", 201000);
         functionalElection = new FunctionalElection();
         List<String> listNations =  functionalElection.convertMapNationsToList(mapNationsVote);
-        assertEquals("Texax",listNations.getFirst());
+        Assertions.assertEquals("Texax", listNations.getFirst());
     }
 
 }
