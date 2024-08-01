@@ -33,7 +33,7 @@ public class ListCollection {
 
 
     public void noDuplicateDifference (){
-        Set<Integer > listNumber = new HashSet<Integer>();
+        Set<Integer > listNumber = new HashSet<>();
         for(int i=0; i<10;i++){
             listNumber.add(i);
         }
@@ -55,7 +55,7 @@ public class ListCollection {
            String verify =""+duplicate.charAt(i);
            if(!decode.add(verify)){
                duplicateChar.add(verify);
-           };
+           }
         }
         return  duplicateChar;
     }

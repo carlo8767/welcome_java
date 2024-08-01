@@ -21,7 +21,7 @@ public class TestBook {
 
     @Test
     public void testExtractListBooks (){
-        List<Book> listBook = new ArrayList<Book>();
+        List<Book> listBook = new ArrayList<>();
         listBook.add(new Book(UUID.randomUUID(), "fakeTitleOne", "fakeAuthorOne"));
         listBook.add(new Book(UUID.randomUUID(), "fakeTitleTwo", "fakeAuthorTwo"));
         books = new Book(UUID.randomUUID(), "","");

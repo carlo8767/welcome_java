@@ -119,7 +119,7 @@ public class TestListCollection {
         for(int i = 0; i<100000; i++){
             linkedList.add(i);
         }
-        String  performanceLinkedList = ""+listCollection.performanceArrayVsLinked(listNations, 2);
+        String  performanceLinkedList = ""+listCollection.performanceArrayVsLinked(linkedList, 2);
         System.out.println(performanceArrayList);
     }
 

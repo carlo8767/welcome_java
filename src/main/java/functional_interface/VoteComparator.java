@@ -1,5 +1,6 @@
 package functional_interface;
 
+import java.util.Comparator;
 import java.util.List;
 
 public class VoteComparator{
@@ -17,8 +18,7 @@ public class VoteComparator{
 
 
     public void sortByVote (List<VoteComparator> vcList){
-        vcList.sort((VoteComparator v1, VoteComparator v2)->
-                v1.getVote().compareTo(v2.getVote()));
+        vcList.sort(Comparator.comparing(VoteComparator::getVote));
     }
 
 
