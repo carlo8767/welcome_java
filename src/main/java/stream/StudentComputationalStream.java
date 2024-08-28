@@ -67,5 +67,22 @@ public class StudentComputationalStream {
         return  listName;
     }
 
+    public long countAge (List<Student> list){
+        // WITH MAP I CREATE A NEW OBJECT
+        long value = list.stream().map(Student::getAge)
+                .filter(x-> x> 18)
+                .count();
+        return  value;
+
+    }
+    public Integer SumAge (List<Student> list){
+        Integer sumReturn = list.stream()
+                .map(Student::getAge)
+                .reduce(0,Integer::sum);
+        return sumReturn;
+    }
+
+
+
 }
 

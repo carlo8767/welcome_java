@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="collection.TestListCollection" time="0.111" tests="9" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="record.ParallelismTest" time="0.058" tests="1" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="22"/>
     <property name="sun.jnu.encoding" value="UTF-8"/>
@@ -7,7 +7,6 @@
     <property name="java.vm.vendor" value="Oracle Corporation"/>
     <property name="sun.arch.data.model" value="64"/>
     <property name="java.vendor.url" value="https://java.oracle.com/"/>
-    <property name="user.timezone" value="Europe/Berlin"/>
     <property name="os.name" value="Linux"/>
     <property name="java.vm.specification.version" value="22"/>
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
@@ -55,17 +54,13 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="66.0"/>
   </properties>
-  <testcase name="testPerformance" classname="collection.TestListCollection" time="0.07">
-    <system-out><![CDATA[5161452
-5161452
+  <testcase name="printRecord" classname="record.ParallelismTest" time="0.053">
+    <system-out><![CDATA[1
+2
+67887791
+-1822412590
+Parallelism[count=1, name=First]
+Parallelism[count=2, name=Second]
 ]]></system-out>
   </testcase>
-  <testcase name="testMap" classname="collection.TestListCollection" time="0.002"/>
-  <testcase name="testUnion" classname="collection.TestListCollection" time="0.001"/>
-  <testcase name="testRemoveDuplicate" classname="collection.TestListCollection" time="0.005"/>
-  <testcase name="testAddFirstElement" classname="collection.TestListCollection" time="0.004"/>
-  <testcase name="testAddSpecificElement" classname="collection.TestListCollection" time="0.002"/>
-  <testcase name="testDifference" classname="collection.TestListCollection" time="0.002"/>
-  <testcase name="testIntersection" classname="collection.TestListCollection" time="0.002"/>
-  <testcase name="testRemoveElement" classname="collection.TestListCollection" time="0.002"/>
 </testsuite>

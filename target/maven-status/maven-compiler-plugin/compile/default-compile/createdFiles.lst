@@ -3,6 +3,7 @@ functional_interface/StreamInterfaceNumber.class
 hello_thread/SellHouseRunnable.class
 stream/Student.class
 inheritance/Dog.class
+record/Parallelism.class
 stream/StudentComputationalStream.class
 polymorphism/Book.class
 inheritance/Animal.class
