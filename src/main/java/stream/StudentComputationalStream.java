@@ -1,6 +1,7 @@
 package stream;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -76,11 +77,14 @@ public class StudentComputationalStream {
 
     }
     public Integer SumAge (List<Student> list){
-        Integer sumReturn = list.stream()
-                .map(Student::getAge)
-                .reduce(0,Integer::sum);
-        return sumReturn;
+        Optional<List<Student>>optionalStudentsList = Optional.of(list);
+             return  optionalStudentsList.get().stream()
+                     .filter(Objects::nonNull)
+                     .map(Student::getAge)
+                     .reduce(0,Integer::sum);
     }
+
+
 
 
 

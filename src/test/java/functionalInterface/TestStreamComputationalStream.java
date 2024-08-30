@@ -78,6 +78,7 @@ public class TestStreamComputationalStream {
         listStudent.add(new Student("ChenYu","Chinese","Female",19));
         listStudent.add(new Student("Jorg","German", "Male",19));
         listStudent.add(new Student("Josephine","France", "Female",19));
+        listStudent.add(null);
         Integer sumAge = studentComputationalStream.SumAge(listStudent);
         assertEquals(95, sumAge);
 
