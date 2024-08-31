@@ -1,18 +1,16 @@
 package stream;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class MainProgress {
 
     public static void main(String [] args){
 
-        List<String> listNames = new ArrayList<String>();
+        List<String> listNames = new ArrayList<>();
         listNames.add("Jane");
         listNames.add("Kate");
-        listNames.add("Mario");
+        listNames.add("Marioo");
         listNames.add("Anna");
         listNames.add("Anna");
         // COUNT THE NAME THAT START BY K
@@ -26,5 +24,17 @@ public class MainProgress {
         // REMOVE SPECIFIC VALUE
         listNames =  listNames.stream().dropWhile(x-> x.equals("Anna")).toList();
         System.out.println(listNames);
+        // GIVE THE INDEX AT DUPLICATE
+        List<String> newlistNames = new ArrayList<>();
+        newlistNames.add("Jane");
+        newlistNames.add("Anna");
+        newlistNames.add("Anna");
+        newlistNames.add("Anna");
+        Set<String> listDuplicate = new HashSet<>();
+        for(int i =0; i<newlistNames.size(); i++) {
+            if(!listDuplicate.add(newlistNames.get(i))){
+                System.out.println("Find duplicate at index "+ i );
+            }
+        }
     }
 }
