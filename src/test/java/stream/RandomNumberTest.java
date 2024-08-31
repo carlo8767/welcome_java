@@ -12,8 +12,9 @@ public class RandomNumberTest {
     @Test
     public void verifyPerformance (){
         RandomNumber randomNumber = new RandomNumber();
-        long parallelTime = randomNumber.generateRandomListParallelNumber(elapseTime);
-        long sequentialTime = randomNumber.generateRandomListSequentialNumber(elapseTime);
+        // var allow to not specifyu khjfyh
+        var parallelTime = randomNumber.generateRandomListParallelNumber(elapseTime);
+        var sequentialTime = randomNumber.generateRandomListSequentialNumber(elapseTime);
         if(parallelTime < sequentialTime){
             System.out.println("Parallel performs in "+parallelTime+
             " and the sequence performs "+ sequentialTime);
