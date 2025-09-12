@@ -3,7 +3,7 @@ package functionalInterface;
 
 import functional_interface.PredicateServiceElection;
 import static org.junit.jupiter.api.Assertions.*;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 
 import java.util.*;

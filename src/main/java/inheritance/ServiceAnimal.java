@@ -14,6 +14,13 @@ public class ServiceAnimal {
         return this.animal.soundAnimal();
     }
 
+    static void main (String [] args){
+        ServiceAnimal serviceAnimal = new ServiceAnimal();
+        Animal animal1 = new Dog("Pipp", "big" );
 
+        serviceAnimal.setStrategySound(animal1);
+        String sound = serviceAnimal.executeStrategy();
+        System.out.println(sound);
+    }
 
 }

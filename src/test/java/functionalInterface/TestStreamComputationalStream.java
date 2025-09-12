@@ -1,13 +1,13 @@
 package functionalInterface;
 
-import org.junit.Test;
+
 import stream.Student;
 import stream.StudentComputationalStream;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-
+import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
