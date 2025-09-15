@@ -75,7 +75,7 @@ class DecisionTreeClassificationTest {
         // You can set up the option for the decision
         // nodeSize is minimun size
         //  TARGET AND FEATURE Formula.lhs("class").rhs("feature1", "feature2");
-        var optionsDecision = new DecisionTree.Options(ENTROPY, 3, 2, 2 );
+        var optionsDecision = new DecisionTree.Options(ENTROPY, 3, 3, 3 );
         if(optional.isPresent()){
             var number_columns = optional.get().columns();
             // m number of row and number of columns
@@ -90,23 +90,39 @@ class DecisionTreeClassificationTest {
             int[] testIdx  = Arrays.copyOfRange(perm, 0, testSize);
 
             // Select rows by index
-            DataFrame train = optional.get().get(Index.of(trainIdx));
+            DataFrame trainData = optional.get().get(Index.of(trainIdx));
             DataFrame testingData  = optional.get().get(Index.of(testIdx));
 
-            System.out.println("Training rows: " + train.nrow());
+            System.out.println("Training rows: " + trainData.nrow());
             System.out.println("Test rows: " + testingData.nrow());
 
             DecisionTree sd = DecisionTree.fit(verify, testingData, optionsDecision);
+
             System.out.println(sd); // prints tree structure
+            // root 99 213.99 Gentoo (0.34314 0.25490 0.40196)  The root has 99 213.99 and Gentoo is most represent index 2
             int[] prediction = sd.predict(testingData);
+
             // Return The value
             int[] truth = testingData.column("species").toIntArray();
             double accuracy = Accuracy.of(truth, prediction);
+            System.out.println("Test Accuracy = " + accuracy);
+            int[] predictions = sd.predict(trainData);
+            truth = trainData.column("species").toIntArray();
+            accuracy = Accuracy.of(truth, predictions);
+            System.out.println("Training Accuracy = " + accuracy);
             //double sensitivity = Sensitivity.of(truth,prediction);
             // double specificity = Specificity.of(truth,prediction);
-            System.out.println("Accuracy = " + accuracy);
+
             //System.out.println("Sensitivity = " + accuracy);
             // System.out.println("Specificity = " + accuracy);
+            /*
+            DecisionTree pruning = sd.prune(testingData);
+            var pruningPrediction = pruning.predict(testingData);
+            var valueTruh = testingData.column("species").toIntArray();
+            accuracy = Accuracy.of(valueTruh, pruningPrediction);
+            System.out.println("Accuracy = " + accuracy);
+            Formula extract = pruning.formula();
+            */
         }
 
  /*
@@ -132,6 +148,7 @@ class DecisionTreeClassificationTest {
 
     }
 }
+
 
 
 
