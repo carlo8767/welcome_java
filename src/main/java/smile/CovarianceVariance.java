@@ -12,6 +12,7 @@ import smile.stat.distribution.ExponentialDistribution;
 import java.awt.*;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
+import java.util.stream.Stream;
 
 import static smile.math.MathEx.mean;
 
@@ -19,6 +20,12 @@ public class CovarianceVariance {
 
 
     public static void main (String [] args) throws InterruptedException, InvocationTargetException {
+
+
+
+
+
+
 
         // BUILD A MATRIX  ROW AND COLUMN
         Matrix m = new Matrix(2, 2);
