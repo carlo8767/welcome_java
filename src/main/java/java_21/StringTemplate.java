@@ -1,11 +1,10 @@
 package java_21;
 
-import static java.util.FormatProcessor.FMT;
 
 public class StringTemplate {
 
     // STRING IN JAVA USUALLY IS HARD TO READ
-
+/*
     public static void main (String [] args){
         // BEFORE
         StringBuilder str = new StringBuilder();
@@ -21,5 +20,5 @@ public class StringTemplate {
         System.out.println(template_string);
 
     }
-
+*/
 }
