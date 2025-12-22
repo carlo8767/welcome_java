@@ -3,6 +3,7 @@ package java_21.virtualThread;
 import java.time.Duration;
 import java.util.concurrent.Executors;
 
+// https://docs.oracle.com/en/java/javase/21/core/virtual-threads.html#GUID-2DDA5807-5BD5-4ABC-B62A-A1230F0566E0
 public class VirtualThread {
 
 
