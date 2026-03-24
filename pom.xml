@@ -80,6 +80,16 @@
 
 
 
+        <!-- Source: https://mvnrepository.com/artifact/dev.langchain4j/langchain4j-open-ai -->
+        <dependency>
+            <groupId>dev.langchain4j</groupId>
+            <artifactId>langchain4j-open-ai</artifactId>
+            <version>1.10.0</version>
+            <scope>compile</scope>
+        </dependency>
+
+
+
 
         <!-- Spring Core / Context -->
         <dependency>

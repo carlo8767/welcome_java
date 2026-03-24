@@ -6,6 +6,7 @@ import dev.langchain4j.data.message.UserMessage;
 import dev.langchain4j.model.chat.ChatModel;
 import dev.langchain4j.model.chat.response.ChatResponse;
 import dev.langchain4j.model.ollama.OllamaChatModel;
+import dev.langchain4j.model.openai.OpenAiChatModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +17,30 @@ public class AssesSwitchLang4J {
 
 
     public static String apiKey = System.getenv("OLLAMA_API_KEY");
+
+
+
+
+    public static void  chatModelInitOpenAI() {
+
+        String apyKey = "qRdUaIV8ew37UB9FnzzlNub_Ouc5zRCxmN6RyUfk65l3dIoaB4FMwnLP0ncIgbOs7vL4TqL3NcT3BlbkFJ3INRh-VaS9u_3FXVIEcqwGB-UC-H-12Xry7ps04bw1Ly_DXaW3aSxsKGbWcjsDa1sjI7qqQxwA";
+
+        ChatModel chatModel =  OpenAiChatModel.builder()
+                .baseUrl("https://api.openai.com/v1")
+                .modelName("gpt-4o")
+                .customHeaders(Map.of(
+                        "Authorization", "Bearer " + apyKey)
+                )
+                .temperature(0.3)
+                .build();
+    }
+
+
+
+
+
+
+
 
 
     public static String sendToLLM (List<ChatMessage> chatMessages, String vendors) throws Exception {
