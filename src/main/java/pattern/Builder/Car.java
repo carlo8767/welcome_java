@@ -1,9 +1,28 @@
 package pattern.Builder;
 
-public class Car {
+public class  Car {
 
-    String engine;
-    String component;
+    private String engine;
+    private String color;
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public String getTyre() {
+        return tyre;
+    }
+
+    public void setTyre(String tyre) {
+        this.tyre = tyre;
+    }
+
+    private String tyre;
+
 
     public String getEngine() {
         return engine;
@@ -11,14 +30,5 @@ public class Car {
 
     public void setEngine(String engine) {
         this.engine = engine;
-    }
-
-    public String getComponent() {
-        return component;
-    }
-
-    public void setComponent(String component) {
-        this.component = component;
-        this.component = component;
     }
 }

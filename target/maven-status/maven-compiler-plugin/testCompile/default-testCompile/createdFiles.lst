@@ -1,2 +1,13 @@
 runnable_connection/TestRunnableCollection.class
+functionalInterface/TestStreamComputationalStream.class
+collection/TestListCollection.class
+stream/RandomNumberTest.class
 inheritance/TestAnimal.class
+smile/DecisionTreeClassificationTest.class
+functionalInterface/TestPredicateElection.class
+record/ParallelismTest.class
+polymorphismTest/TestBook.class
+functionalInterface/TestConsumerNations.class
+functionalInterface/TestFunctionNations.class
+codeWar/VerifyPinTest.class
+functionalInterface/TestStreamInterfaceNumber.class

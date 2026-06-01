@@ -22,7 +22,7 @@ public class HelloLang4j {
         String apiKey = System.getenv("OLLAMA_API_KEY");
         ChatModel chatModel = OllamaChatModel.builder()
                 .baseUrl("https://ollama.com")
-                .modelName("minimax-m2.1")
+                .modelName("nemotron-3-nano:30b-cloud")
                 .customHeaders(Map.of(
                         "Authorization", "Bearer " + apiKey
                 ))
