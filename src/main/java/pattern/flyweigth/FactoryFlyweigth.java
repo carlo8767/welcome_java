@@ -15,7 +15,7 @@ public class FactoryFlyweigth {
         Flyweigth bird = mapObject.get(colour);
         Optional<Flyweigth> optional = Optional.ofNullable(bird);
         if(optional.isEmpty()){
-            bird = new AngryBird("angry"+ (colour.substring(0,1).toUpperCase()),colour);
+            bird = new AngryBird("angry "+ (colour.substring(0,1).toUpperCase()),colour);
             mapObject.put(colour,bird);
         }
         return  bird;
