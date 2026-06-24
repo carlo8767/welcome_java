@@ -7,6 +7,7 @@ public class Client {
 
 
 
+
         String[] colours = {"red", "blue","yellow"};
         FactoryFlyweigth factoryFlyweigth = new FactoryFlyweigth();
         factoryFlyweigth.getExtrinsicAngryBird("red");
@@ -15,4 +16,6 @@ public class Client {
            flyweigth.extrinsicNoShareDraw();
         }
     }
+
+
 }

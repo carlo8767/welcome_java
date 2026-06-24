@@ -1,6 +1,7 @@
 runnable_connection/TestRunnableCollection.class
 functionalInterface/TestStreamComputationalStream.class
 collection/TestListCollection.class
+smile/ArtificialTest.class
 stream/RandomNumberTest.class
 inheritance/TestAnimal.class
 smile/DecisionTreeClassificationTest.class

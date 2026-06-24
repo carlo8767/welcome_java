@@ -11,7 +11,6 @@ tasktracker/task/TaskAdd.class
 tasktracker/task/TaskUpdate.class
 inheritance/Animal.class
 smile/CovarianceVariance.class
-pattern/flyweigth/Flyweigth.class
 langChain4J/HelloStreamingChatModel$2.class
 codeWar/MixExercise.class
 pattern/Builder/CarDirector.class
@@ -21,7 +20,6 @@ pattern/singleton/Singleton.class
 spring_hello/configuration/AppConfiguration.class
 stream/StudentComputationalStream.class
 hello_thread/CreateSemaphoreShared.class
-polymorphism/Book.class
 java_21/switchedPattern/UnusedVariable.class
 sealed_class/Dog.class
 langChain4J/HelloStreamingChatModel.class
@@ -56,11 +54,12 @@ stream/RandomNumber.class
 stream/Dish.class
 java_21/switchedPattern/SwitchedPatternInterface.class
 smile/Regression.class
+machineLearning/Order.class
 BinaryTree/BinaryClass.class
 university/HelloWorld.class
+spring_hello/aspect/LoggingAspect.class
 pattern/Builder/Meclaren.class
 langChain4J/PromptTemplateExamples$PromptTemplate_with_One_Variable_Example.class
-solid/Dog.class
 pattern/observer/ConcreteVeichels.class
 functional_interface/ExtendInheritance.class
 smile/DecisionTreeClassification.class
@@ -71,9 +70,7 @@ functional_interface/ConsumerNations.class
 langChain4J/PromptTemplateExamples$PromptTemplate_With_Multiple_Variables_Example.class
 langChain4J/AdivsorAIFootball.class
 codeWar/VerifyPin.class
-java_21/RecordPattern.class
 functional_interface/Animal.class
-solid/Animal.class
 java_21/switchedPattern/SwitchedPatterService.class
 functional_interface/Inheritance.class
 solid/Bird.class
@@ -87,12 +84,12 @@ pattern/observer/TrafficLightEvents.class
 codeWar/Examinee.class
 pattern/observer/ConcreteVeichels$1.class
 codeWar/speedLimit/SpeedLimit.class
-spring_hello/DemoApplication.class
 hello_thread/BuildHouseRunnable.class
 tasktracker/task/TaskService.class
 pattern/flyweigth/FactoryFlyweigth.class
 pattern/Builder/Car.class
 langChain4J/AssesSwitchLang4J.class
+smile/Artificial.class
 pattern/observer/TrafficLight.class
 hello_thread/SellHouseRunnable.class
 java_21/virtualThread/CuncurrentlyThread.class
@@ -105,4 +102,3 @@ university/BookExtends.class
 sealed_class/Cat.class
 hello_thread/CreateSemaphoreRunnable.class
 java_21/SequenceCollections.class
-functional_interface/FunctionalElection.class

@@ -12,7 +12,7 @@ public class UnusedVariable {
         ArrayList<Integer> listInteger = new ArrayList<>(Arrays.asList(1,2,3,5));
 
         var values = 5;
-        for (Integer _ : listInteger){
+        for (Integer d : listInteger){
             values+=1;
         }
 

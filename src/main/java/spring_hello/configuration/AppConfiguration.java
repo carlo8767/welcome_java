@@ -2,6 +2,7 @@ package spring_hello.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.web.client.RestTemplate;
@@ -10,6 +11,7 @@ import java.util.concurrent.Executor;
 
 @Configuration
 @EnableAsync
+@EnableAspectJAutoProxy
 public class AppConfiguration {
 
     @Bean
