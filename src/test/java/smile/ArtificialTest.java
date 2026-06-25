@@ -24,7 +24,7 @@ class ArtificialTest {
         Optional<DataFrame> pt = art.readActivities();
         assertTrue(pt.isPresent());
         DataFrame df = pt.get();
-        conditionalProbabilities(df);
+        art.conditionalProbabilities(df);
         // HAVE A VECTOR OF VALUE
         ValueVector featureLockdown = df.column(0);
         ValueVector label = df.column(4);
