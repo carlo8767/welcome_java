@@ -1,6 +1,6 @@
 package collection;
 
-import java.util.PriorityQueue;p
+import java.util.PriorityQueue;
 import java.util.Queue;
 
 public class PriorityQueenPerson implements  Comparable<PriorityQueenPerson> {
@@ -63,6 +63,6 @@ public class PriorityQueenPerson implements  Comparable<PriorityQueenPerson> {
         queePeople.add(new PriorityQueenPerson(5, "Francesco"));
 
         var s = queePeople.remove(); // REMOVE THE HEAD
-        System.out.println(s.getName());
+
     }
 }
