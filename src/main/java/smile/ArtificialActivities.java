@@ -5,6 +5,7 @@ import org.apache.commons.csv.CSVFormat;
 import smile.classification.DecisionTree;
 import smile.data.DataFrame;
 import smile.io.Read;
+import smile.util.Index;
 
 import java.util.*;
 
@@ -12,7 +13,12 @@ public class ArtificialActivities {
 
 
 
+
+
+
         private ArtificialTree artificialTree;
+
+
         public ArtificialActivities(){
             this.artificialTree = new ArtificialTree();
         }
@@ -58,25 +64,22 @@ public class ArtificialActivities {
 
     public void conditionalProbabilities(DataFrame df) {
            try {
-                Map<String, Double> mapTree = new TreeMap<>();
-                if(!Objects.requireNonNull(df).isEmpty()) {
-                    for (int in = 0; in < df.ncol(); in++) {
-
-
-
-                        int[] featureLockdown = df.column(in).toIntArray();
-                        int[] label = df.column(df.ncol() - 1).toIntArray();
-
-
+                Map<Integer, String> mapTree = new TreeMap<>();
+                var topDown = df;
+                double lowestGiniInpurty = 1;
+                int index_lowestGiny = -1;
+                if(!Objects.requireNonNull(topDown).isEmpty()) {
+                    for (int in = 0; in < topDown.ncol()-1; in++) {
+                        int[] featureLockdown = topDown.column(in).toIntArray();
+                        int[] label = topDown.column(topDown.ncol() - 1).toIntArray();
                         Map<String, Integer> mapNodeTrue = new HashMap<>();
                         Map<String, Integer> mapNodeFalse = new HashMap<>();
-
                         int count00 = 0;
                         int count01 = 0;
                         int count11 = 0;
                         int count10 = 0;
 
-
+                        /*CALCULATION GINI INPURITY */
                         for (int i = 0; i < featureLockdown.length; i++) {
                             if (featureLockdown[i] == 0 && label[i] == 0) {
                                 count00 += 1;
@@ -98,13 +101,33 @@ public class ArtificialActivities {
 
                         mapNodeTrue.put("size", count11 + count10);
 
-
+                        /*GINI INPURITY */
                         double giniInpurity = inpurity_level(mapNodeTrue, mapNodeFalse);
 
-                        // STORE TREE INPURITY
-                        mapTree.put(df.schema().field(in).toString(),giniInpurity);
+                        /*STORE GINI IPURITY WITH THE NAME FIELD */
+                        if (giniInpurity < lowestGiniInpurty){
+                            lowestGiniInpurty = giniInpurity;
+                            index_lowestGiny = in;
+                        }
+                        mapTree.put(in,topDown.schema().field(in).toString());
+                        System.out.println(mapTree.get(index_lowestGiny));
 
+                        // BUILD THE TREE
                     }
+
+                    List<String> rootNode = this.artificialTree.getRootNode();
+                    if(Objects.requireNonNull(rootNode).isEmpty()) {
+
+                        this.artificialTree.rootNode.add(mapTree.get(index_lowestGiny));
+
+                       var w  = df.schema().field(0).name();
+                        var wa  = df.schema().field(4).name();
+                       // NEW BASE
+                       var ns = df.apply(w,wa);
+                       System.out.println(w);
+                       buildTree(ns, df);
+                    }
+
                 }
                 else{throw new NullPointerException();}
                }
@@ -174,6 +197,59 @@ public class ArtificialActivities {
         }
         return  -1.0;
     }
+
+
+    public void buildTree(DataFrame base, DataFrame root){
+
+        int[] featureLockdown = base.column(0).toIntArray();
+        int[] label = base.column(base.ncol() - 1).toIntArray();
+            Map<String, Integer> mapNodeTrue = new HashMap<>();
+        Map<String, Integer> mapNodeFalse = new HashMap<>();
+        int count00 = 0;
+        int count01 = 0;
+        int count11 = 0;
+        int count10 = 0;
+
+        /*CALCULATION GINI INPURITY */
+        for (int i = 0; i < featureLockdown.length; i++) {
+            if (featureLockdown[i] == 0 && label[i] == 0) {
+                count00 += 1;
+                mapNodeFalse.put("NodeFalseOutcomeFalse", count00);
+            } else if (featureLockdown[i] == 0 && label[i] == 1) {
+                count01 += 1;
+                mapNodeFalse.put("NodeFalseOutcomeTrue", count01);
+            } else if (featureLockdown[i] == 1 && label[i] == 1) {
+                count11 += 1;
+                mapNodeTrue.put("NodeTrueOutcomeTrue", count11);
+            } else if (featureLockdown[i] == 1 && label[i] == 0) {
+                count10 += 1;
+                mapNodeTrue.put("NodeTrueOutcomeFalse", count10);
+            }
+           int  [] array_values = {count00, count01,count11, count10};
+           if (count00 ==0){
+               System.out.println("is pure");
+           } else if (count01 ==0) {
+               System.out.println("is pure");
+           }
+           if (count10 ==0){
+                System.out.println("is pure");
+            } else if (count11 ==0) {
+                System.out.println("is pure");
+            }
+
+        }
+
+
+
+
+        mapNodeFalse.put("size", count00 + count01);
+
+        mapNodeTrue.put("size", count11 + count10);
+    }
+
+
+
+
 
 
 }

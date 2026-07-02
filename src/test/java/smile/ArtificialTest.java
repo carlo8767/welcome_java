@@ -19,6 +19,17 @@ class ArtificialTest {
     public void testLoadFile() {
 
 
+        List<String> fa = new ArrayList<>();
+        if(Objects.requireNonNull(fa).isEmpty()){
+            System.out.println("is  empty");
+        }
+        fa.add("fas");
+        if(Objects.requireNonNull(fa).isEmpty()){
+            System.out.println("is not empty");
+        }
+
+
+
 
         ArtificialActivities art = new ArtificialActivities();
         Optional<DataFrame> pt = art.readActivities();
@@ -53,7 +64,7 @@ class ArtificialTest {
         int count11 = 0;
         int count10 = 0;
 
-
+        /*PREPARE VALUES GINI INPURITY  */
         for (int i = 0; i < featureLockdown.length; i++) {
             if (featureLockdown[i] == 0 && label[i] == 0) {
                 count00+=1;
@@ -91,7 +102,7 @@ class ArtificialTest {
 
 
 
-
+        /*CALCULATION CONDITIONAL GINI INDEX */
         inpurity_index_false+= mapNodeFalse.entrySet().stream()
                 .filter(x-> !x.getKey().equals("size"))
                 .map(values ->
@@ -111,16 +122,10 @@ class ArtificialTest {
         }
         assertEquals(previous, inpurity_index_false);
 
-
-
-
         inpurity_index_false =1.000 - inpurity_index_false;
 
 
-
-
-
-
+        /*CALCULATION GINI INPURITY */
         double class_prob  = mapNodeFalse.get("size")/sizeNodes;
         inpurity_index_false = class_prob * inpurity_index_false;
 
