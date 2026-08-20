@@ -1,7 +1,10 @@
 package collection;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Queue;
+import java.util.stream.Collectors;
 
 public class PriorityQueenPerson implements  Comparable<PriorityQueenPerson> {
 
@@ -22,7 +25,7 @@ public class PriorityQueenPerson implements  Comparable<PriorityQueenPerson> {
 
     @Override
     public int compareTo(PriorityQueenPerson p) {
-        // I CAN DECIDES THE ORDER WITH COMPARE TO BASE ON THE OUTCOME
+        // I CAN DECIDE THE ORDER WITH COMPARE TO BASE ON THE OUTCOME
         // - 1 YOU PRIORATIZE THE HIGHER PRIORITY
         if(this.getPriority()> p.getPriority()){
             return -1;
@@ -61,6 +64,18 @@ public class PriorityQueenPerson implements  Comparable<PriorityQueenPerson> {
         queePeople.add(new PriorityQueenPerson(1, "Giovanni"));
         queePeople.add(new PriorityQueenPerson(5, "Gianni"));
         queePeople.add(new PriorityQueenPerson(5, "Francesco"));
+
+
+        List<Integer> list = new ArrayList<>();
+        list.add(1);
+        list.add(2);
+        list.add(3);
+        list.add(5);
+        list.add(4);
+        list.add(10);
+        List<Integer> f  = list.stream().dropWhile(x-> x>3).toList();
+
+
 
         var s = queePeople.remove(); // REMOVE THE HEAD
 

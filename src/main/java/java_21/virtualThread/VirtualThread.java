@@ -9,6 +9,13 @@ public class VirtualThread {
 
     public static void main(String[] args) {
         // try (var executor = Executors.newVirtualThreadPerTaskExecutor())
+       //
+      //  Executors class also defines methods to create an
+        //  ExecutorService that starts a new virtual thread for each task.
+
+
+
+
         try (var executor = Executors.newSingleThreadExecutor()) {
             int i = 0;
             while (i < 10_000) {
