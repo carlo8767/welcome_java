@@ -39,6 +39,19 @@ public class Post {
         return  loginService.answerPostAsync();
     }
 
+    @GetMapping("/virtual")
+    public CompletableFuture<Integer> answerVirtual() {
+        return  loginService.answerVirtual();
+    }
+
+
+
+
+
+
+
+
+
 
 
 
