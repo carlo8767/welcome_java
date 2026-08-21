@@ -40,13 +40,14 @@ public class AppConfiguration {
         return new SimpleAsyncTaskExecutor("app-");
     }
 
-
-    @Bean (name="asyncExecution")
+    // OLD THREAD WITHOUT VIRTUAL
+    @Bean (name="normalThread")
     public Executor taskExecutor() {
         // SPRING BOOT
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-        executor.setCorePoolSize(2);
-        executor.setMaxPoolSize(2);
+        // KEEP IN THE CONTAINS ALSO IF THEY ARE IDLE
+        executor.setCorePoolSize(10);
+        executor.setMaxPoolSize(10); // MAX NUMBER OF CUNCURRENT
         executor.setQueueCapacity(500);
         executor.setThreadNamePrefix("asyncExecution");
         executor.initialize();

@@ -1,6 +1,7 @@
 package spring_hello.controller;
 
 
+import org.springframework.web.service.annotation.GetExchange;
 import spring_hello.Service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -36,13 +37,19 @@ public class Post {
 
     @GetMapping("/getPostAsync")
     public CompletableFuture<List<spring_hello.Model.Post>> answerPost() {
-        return  loginService.answerPostAsync();
+        return  loginService.normalThread();
     }
 
     @GetMapping("/virtual")
     public CompletableFuture<Integer> answerVirtual() {
         return  loginService.answerVirtual();
     }
+
+    @GetMapping("/normal")
+    public CompletableFuture<Integer> normalThread() {
+        return  loginService.answerOSThread();
+    }
+
 
 
 
