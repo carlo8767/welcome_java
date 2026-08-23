@@ -1,10 +1,9 @@
 package hello_thread.Parallel;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+
 import java.util.List;
 import java.util.concurrent.ForkJoinPool;
-import java.util.concurrent.ForkJoinTask;
 
 public class ParallelSearch {
 
