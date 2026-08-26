@@ -35,7 +35,7 @@ public class PostService {
     public CompletableFuture<Integer> answerOSThread() {
 
         try {
-            // simulate blocking I/O call (e.g. external API)
+            //simulate blocking I/O call (e.g. external API)
             var result = 0;
             for (int i = 0; i < 9; i++) {
                 result += i * 2;
