@@ -7,7 +7,7 @@ import java.util.concurrent.locks.ReentrantLock;
 public class QueueThread implements Callable {
     @Override
     public Integer call() throws Exception {
-        Lock l = new ReentrantLock();
+        Lock l = new ReentrantLock(true);
 
         Integer c = 1;
 

@@ -16,9 +16,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Map;
-import java.util.concurrent.Executor;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.*;
 
 @Configuration
 @EnableAsync
@@ -50,12 +48,15 @@ public class AppConfiguration {
         executor.setMaxPoolSize(10); // MAX NUMBER OF CUNCURRENT
         executor.setQueueCapacity(500);
         executor.setThreadNamePrefix("asyncExecution");
+        // If rejected the limit execute directly!!!
+        executor.setRejectedExecutionHandler( new ThreadPoolExecutor.CallerRunsPolicy());
         executor.initialize();
         return executor;
     }
 
     @Bean("virtual")
     public AsyncTaskExecutor asyncTaskExecutor() {
+
         return new TaskExecutorAdapter(Executors.newVirtualThreadPerTaskExecutor());
     }
 
@@ -85,4 +86,8 @@ public class AppConfiguration {
                 .build();
         return  chatModel;
     }
+
+
+
+
 }

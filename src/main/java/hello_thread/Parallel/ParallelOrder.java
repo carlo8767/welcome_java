@@ -31,10 +31,7 @@ public class ParallelOrder {
 
             String concatenatedString = listOfStrings
                     .stream()
-
-
                     .peek(s -> listOfStrings.add("three"))
-
                     .reduce((a, b) -> a + " " + b)
                     .get();
 

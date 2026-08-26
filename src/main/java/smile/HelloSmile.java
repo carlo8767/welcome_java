@@ -79,7 +79,7 @@ public class HelloSmile {
     }
 
 
-    static  void main (String [] args ) throws IOException, ParseException, URISyntaxException {
+    public static  void main (String [] args ) throws IOException, ParseException, URISyntaxException {
 
         HelloSmile ns = new HelloSmile();
         ns.loadFile();
