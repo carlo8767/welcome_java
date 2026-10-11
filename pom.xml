@@ -55,6 +55,8 @@
             <scope>test</scope>
         </dependency>
 
+
+
         <dependency>
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
@@ -137,6 +139,16 @@
 
 
 
+        <!-- Source: https://mvnrepository.com/artifact/org.openjdk.jmh/jmh-core -->
+        <dependency>
+            <groupId>org.openjdk.jmh</groupId>
+            <artifactId>jmh-core</artifactId>
+            <version>1.37</version>
+            <scope>test</scope>
+        </dependency>
+
+
+
 
 
     </dependencies>
@@ -148,6 +160,15 @@
                 <configuration>
                     <source>22</source>
                     <target>22</target>
+
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.openjdk.jmh</groupId>
+                            <artifactId>jmh-generator-annprocess</artifactId>
+                            <version>1.37</version>
+                        </path>
+                    </annotationProcessorPaths>
+
                 </configuration>
             </plugin>
         </plugins>
