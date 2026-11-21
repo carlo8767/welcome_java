@@ -152,11 +152,12 @@ public class CartItemDO2Benchmark {
 
     public void exercise_two_a()  {
         try {
+            // https://learnitweb.com/java-tutorial/understanding-xxprintcompilation-in-the-jvm/
             Options opt = new OptionsBuilder()
                     .include(CartItemDO2Benchmark.class.getSimpleName())
                     .mode(Mode.SingleShotTime)
                     // without JIT compiler
-                    //.jvmArgs("XX:+PrintCompilation")
+                    .jvmArgs("-XX:+PrintCompilation")
                     .detectJvmArgs()
                     .forks(1)
                     .warmupIterations(0)
@@ -179,10 +180,11 @@ public class CartItemDO2Benchmark {
                     .include(CartItemDO2Benchmark.class.getSimpleName())
                     .mode(Mode.SingleShotTime)
                     // without JIT compiler
-                    .jvmArgs("−XX:TieredStopAtLevel=1")
+                    .jvmArgs("-XX:+LogCompilation")
                     .forks(1)
-                    .warmupIterations(0)
-                    .measurementIterations(10)
+                    // PROFILE ON
+                    .warmupIterations(1)
+                    .measurementIterations(5)
                     .resultFormat(ResultFormatType.JSON)
                     .build();
 
@@ -209,8 +211,8 @@ public class CartItemDO2Benchmark {
         CartItemDO2Benchmark cs = new CartItemDO2Benchmark();
         cs.exercise_one_b();
         cs.exercise_one_d();
-        cs.exercise_one_e();
-      //  cs.exercise_two_a();
+   /*     cs.exercise_one_e();
+        cs.exercise_two_b();*/
 
         }
         // We can see

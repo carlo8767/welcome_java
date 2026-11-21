@@ -4,3 +4,4 @@ dontinline,*.*_sample_jmhStub
 dontinline,*.*_ss_jmhStub
 dontinline,*.*_thrpt_jmhStub
 inline,microbenchmark/CartItemDO2Benchmark.testCartItem
+inline,microbenchmark/JMHSample_01_HelloWorld.wellHelloThere
