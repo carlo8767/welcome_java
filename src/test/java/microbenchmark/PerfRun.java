@@ -7,11 +7,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
 
-class StreamGobbler implements Runnable {
+class StreamPerf implements Runnable {
     private InputStream inputStream;
     private Consumer<String> consumer;
 
-    public StreamGobbler(InputStream inputStream, Consumer<String> consumer) {
+    public StreamPerf(InputStream inputStream, Consumer<String> consumer) {
         this.inputStream = inputStream;
         this.consumer = consumer;
     }
@@ -36,43 +36,104 @@ class StreamGobbler implements Runnable {
      */
 
 
-    public static void  extraction_zstd() throws IOException {
+    public static void  extraction_L1(String compressed, String type) throws IOException {
         ProcessBuilder builder = new ProcessBuilder();
         PerfReport pf = new PerfReport();
         Map<Integer,PerfReport> mapValue = new HashMap<>();
         JSONArray jsonArray = new JSONArray();
         int i = 0;
-        while(i <2) {
-                builder.command(
-                        "perf", "stat",
-                        "-e",
-                        "L1-dcache-loads,L1-dcache-load-misses,cycles,l1d_pend_miss.pending",
-                        "-j",
-                        "--append",
-                        "-o",
-                        "report.json",
-                        "zstd",
-                        "05_InfrastructureObservabilityS.pdf"
+        while(i <10) {
+            builder.command(
+                    "perf", "stat",
+                    "-e",
+                    "L1-dcache-load-misses,l1d_pend_miss.pending_cycles,mem_inst_retired.all_loads",
+                    "-j",
+                    "--append",
+                    "-o",
+                    "report_l1.json",
+                    compressed, type,
+                    "05_InfrastructureObservability.pdf"
 
-                );
+            );
             String path = System.getProperty("user.home");
             builder.redirectErrorStream(true);
             builder.directory(new File(path + "/Desktop/project_/project_Java/hello_java/welcome_java/src/test/java/microbenchmark"));
             Process process = builder.start();
             i++;
+
+
+            builder.directory(new File(path + "/Desktop/project_/project_Java/hello_java/welcome_java/src/test/java/microbenchmark"));
+            BufferedReader reader = new BufferedReader(
+                    new InputStreamReader(process.getInputStream())
+            );
+
+            String line;
+            while ((line = reader.readLine()) != null) {
+                System.out.println(line);
+            }
         }
-        mapValue = pf.extract_info(i);
-        pf.getAverage(mapValue,"l1d_pend_miss.pending");
-        pf.getAverage(mapValue,"L1-dcache-load-misses");
+        mapValue = pf.extract_info("report_l1.json");
+        pf.getAverage(mapValue,"L1-dcache-load-misses", "L1");
+        pf.getAverage(mapValue,"l1d_pend_miss.pending_cycles", "L1");
+        pf.getAverage(mapValue,"mem_inst_retired.all_loads", "L1");
 
+    }
+
+
+    public static void  extraction_L2 (String compressed, String type) throws IOException {
+        ProcessBuilder builder = new ProcessBuilder();
+        PerfReport pf = new PerfReport();
+        Map<Integer,PerfReport> mapValue = new HashMap<>();
+        JSONArray jsonArray = new JSONArray();
+        int i = 0;
+        while(i <10) {
+            builder.command(
+                    "perf", "stat",
+                    "-e",
+                    "l2_rqsts.miss,cycle_activity.cycles_l2_miss,mem_inst_retired.all_loads",
+                    "-j",
+                    "--append",
+                    "-o",
+                    "report_l2.json",
+                    compressed, type,
+                    "05_InfrastructureObservability.pdf"
+
+
+            );
+
+            String path = System.getProperty("user.home");
+            builder.redirectErrorStream(true);
+            builder.directory(new File(path + "/Desktop/project_/project_Java/hello_java/welcome_java/src/test/java/microbenchmark"));
+            Process process = builder.start();
+            i++;
+
+
+            builder.directory(new File(path + "/Desktop/project_/project_Java/hello_java/welcome_java/src/test/java/microbenchmark"));
+            BufferedReader reader = new BufferedReader(
+                    new InputStreamReader(process.getInputStream())
+            );
+
+            String line;
+            while ((line = reader.readLine()) != null) {
+                System.out.println(line);
+            }
+
+            i++;
         }
+        mapValue = pf.extract_info("report_l2.json");
+        pf.getAverage(mapValue,"l2_rqsts.miss", "L2");
+        pf.getAverage(mapValue,"cycle_activity.cycles_l2_miss", "L2");
+        pf.getAverage(mapValue,"mem_inst_retired.all_loads", "L2");
 
-
-
+    }
 
     public static void main (String[] args) throws IOException {
-        StreamGobbler.extraction_zstd();
-        boolean isLinux = System.getProperty("os.name").toLowerCase().equals("linux");
+        StreamPerf.extraction_L1("xz", "-k");
+        StreamPerf.extraction_L2("xz", "-k");
+        StreamPerf.extraction_L1("zstd", "-k");
+        StreamPerf.extraction_L2("zstd", "-k");
+
+       /* boolean isLinux = System.getProperty("os.name").toLowerCase().equals("linux");
         ProcessBuilder builder = new ProcessBuilder();
         PerfReport pf = new PerfReport();
         Map<Integer,PerfReport> mapValue = new HashMap<>();
@@ -102,20 +163,20 @@ class StreamGobbler implements Runnable {
             builder.redirectErrorStream(true);
             builder.directory(new File(path + "/Desktop/project_/project_Java/hello_java/welcome_java/src/test/java/microbenchmark"));
             Process process = builder.start();
-        /*    BufferedReader reader = new BufferedReader(
+            BufferedReader reader = new BufferedReader(
                     new InputStreamReader(process.getInputStream())
             );
 
             String line;
             while ((line = reader.readLine()) != null) {
                 System.out.println(line);
-            }*/
+            }
             i++;
 
         }
         mapValue = pf.extract_info(i);
         pf.getAverage(mapValue,"l1d_pend_miss.pending");
-        pf.getAverage(mapValue,"L1-dcache-load-misses");
+        pf.getAverage(mapValue,"L1-dcache-load-misses");*/
 
 
 

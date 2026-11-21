@@ -1,14 +1,12 @@
 package microbenchmark;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.core.type.TypeReference;
+
 import com.fasterxml.jackson.databind.MappingIterator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -29,17 +27,16 @@ public class PerfReport{
         double pctRunning;
 
 
-    public void getAverage(Map<Integer,PerfReport > map,String event){
-
-
-
+    public void getAverage(Map<Integer,PerfReport > map,String event, String type){
+        
         double sum = map.values().stream()
                 .filter(x->x.getEvent().equals(event))
                 .mapToDouble(x -> Double.parseDouble(x.getCounter()))
                 .sum();
-
+        System.out.println("\n"+"METRICS FOR "+ type);
+        System.out.println("--> TOTAL: "+ event+ " "+ sum);
         double average = sum/2;
-        System.out.println("mean: "+ event+ " "+ average);
+        System.out.println("--> MEAN: "+ event+ " "+ average);
         double variance = map.values().stream()
                 .filter(x->x.getEvent().equals(event))
                 .mapToDouble(x -> Double.parseDouble(x.getCounter()))
@@ -48,15 +45,15 @@ public class PerfReport{
 
 
         double standard_deviation = Math.sqrt(variance/1);
-        System.out.println("standard_deviation: "+ event + " "+  standard_deviation);
+        System.out.println("-->STANDARD DEVIATION: "+ event + " "+  standard_deviation +"\n");
 
     }
 
 
-    public   Map<Integer, PerfReport> extract_info(int value) throws IOException {
+    public   Map<Integer, PerfReport> extract_info(String name_file) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         Map<Integer,PerfReport> mapValue = new HashMap<>();
-        String path = "/home/robothg/Desktop/project_/project_Java/hello_java/welcome_java/src/test/java/microbenchmark/report.json";
+        String path = "/home/robothg/Desktop/project_/project_Java/hello_java/welcome_java/src/test/java/microbenchmark/"+name_file;
         PerfReport pf = mapper.readValue(new File(path), PerfReport.class);
         List<PerfReport> reports = new ArrayList<>();
 
