@@ -5,12 +5,19 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.MappingIterator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static org.apache.xmpbox.type.Types.Locale;
 
 public class PerfReport{
 
@@ -33,16 +40,17 @@ public class PerfReport{
                 .filter(x->x.getEvent().equals(event))
                 .mapToDouble(x -> Double.parseDouble(x.getCounter()))
                 .sum();
+
+        double size = map.size()/3;
         System.out.println("\n"+"METRICS FOR "+ type);
         System.out.println("--> TOTAL: "+ event+ " "+ sum);
-        double average = sum/2;
+        double average = sum/size;
         System.out.println("--> MEAN: "+ event+ " "+ average);
         double variance = map.values().stream()
                 .filter(x->x.getEvent().equals(event))
                 .mapToDouble(x -> Double.parseDouble(x.getCounter()))
                 .map(x->  (Math.pow(x-average, 2.00)))
                 .sum();
-
 
         double standard_deviation = Math.sqrt(variance/1);
         System.out.println("-->STANDARD DEVIATION: "+ event + " "+  standard_deviation +"\n");
@@ -69,7 +77,15 @@ public class PerfReport{
                 mapValue.put(i, reports.get(i));
             }
         }
+/*
+        // Erase the file content
+        try (BufferedWriter writer = Files.newBufferedWriter(
+                Paths.get(path),
+                StandardOpenOption.WRITE,
+                StandardOpenOption.TRUNCATE_EXISTING)) {
 
+            writer.write("");
+        }*/
         return mapValue;
 
     }
