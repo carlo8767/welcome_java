@@ -12,10 +12,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.text.NumberFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static org.apache.xmpbox.type.Types.Locale;
 
@@ -41,11 +38,12 @@ public class PerfReport{
                 .mapToDouble(x -> Double.parseDouble(x.getCounter()))
                 .sum();
 
+        NumberFormat nf = NumberFormat.getInstance(java.util.Locale.GERMAN);
         double size = map.size()/3;
         System.out.println("\n"+"METRICS FOR "+ type);
-        System.out.println("--> TOTAL: "+ event+ " "+ sum);
+        System.out.println("--> TOTAL: "+ event+ " "+ nf.format(sum));
         double average = sum/size;
-        System.out.println("--> MEAN: "+ event+ " "+ average);
+        System.out.println("--> MEAN: "+ event+ " "+ nf.format(average));
         double variance = map.values().stream()
                 .filter(x->x.getEvent().equals(event))
                 .mapToDouble(x -> Double.parseDouble(x.getCounter()))
@@ -53,7 +51,7 @@ public class PerfReport{
                 .sum();
 
         double standard_deviation = Math.sqrt(variance/1);
-        System.out.println("-->STANDARD DEVIATION: "+ event + " "+  standard_deviation +"\n");
+        System.out.println("-->STANDARD DEVIATION: "+ event + " "+  nf.format(standard_deviation) +"\n");
 
     }
 
@@ -77,7 +75,7 @@ public class PerfReport{
                 mapValue.put(i, reports.get(i));
             }
         }
-/*
+
         // Erase the file content
         try (BufferedWriter writer = Files.newBufferedWriter(
                 Paths.get(path),
@@ -85,7 +83,7 @@ public class PerfReport{
                 StandardOpenOption.TRUNCATE_EXISTING)) {
 
             writer.write("");
-        }*/
+        }
         return mapValue;
 
     }
