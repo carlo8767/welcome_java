@@ -1,3 +1,4 @@
-{"counter-value" : "46752.000000", "unit" : "", "event" : "L1-dcache-load-misses", "event-runtime" : 742965, "pcnt-running" : 100.00}
-{"counter-value" : "897156.000000", "unit" : "", "event" : "l1d_pend_miss.pending_cycles", "event-runtime" : 742965, "pcnt-running" : 100.00}
-{"counter-value" : "625326.000000", "unit" : "", "event" : "mem_inst_retired.all_loads", "event-runtime" : 742965, "pcnt-running" : 100.00}
+{"counter-value" : "47883.000000", "unit" : "", "event" : "L1-dcache-load-misses", "event-runtime" : 751834, "pcnt-running" : 100.00}
+{"counter-value" : "875033.000000", "unit" : "", "event" : "l1d_pend_miss.pending_cycles", "event-runtime" : 751834, "pcnt-running" : 100.00}
+{"counter-value" : "653112.000000", "unit" : "", "event" : "mem_inst_retired.all_loads", "event-runtime" : 751834, "pcnt-running" : 100.00}
+{"counter-value" : "634051.000000", "unit" : "", "event" : "mem_load_retired.l1_hit", "event-runtime" : 751834, "pcnt-running" : 100.00}

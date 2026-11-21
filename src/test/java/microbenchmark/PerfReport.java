@@ -31,26 +31,81 @@ public class PerfReport{
         double pctRunning;
 
 
+
+     public void t_test (Map<Integer,PerfReport > map,String eventOne, String eventTwo){
+         double sizeEvent = map.size()/4.00;
+         double eventOneSum = map.values().stream()
+                 .filter(x->x.getEvent().equals(eventOne))
+                 .mapToDouble(x -> Double.parseDouble(x.getCounter()))
+                 .sum();
+
+         double eventsTwoSum = map.values().stream()
+                 .filter(x->x.getEvent().equals(eventTwo))
+                 .mapToDouble(x -> Double.parseDouble(x.getCounter()))
+                 .sum();
+         double meanEventOne = eventOneSum/sizeEvent;
+         double meanEventTwo = eventsTwoSum/sizeEvent;
+
+
+         double varianceOne = map.values().stream()
+                 .filter(x->x.getEvent().equals(eventOne))
+                 .mapToDouble(x -> Double.parseDouble(x.getCounter())-meanEventOne)
+                 .map(x->  (Math.pow(x, 2.00)))
+                 .map(x-> x/(sizeEvent-1))
+                 .sum();
+
+         double standard_deviationOne = (varianceOne/sizeEvent);
+
+         double varianceTwo = map.values().stream()
+                 .filter(x->x.getEvent().equals(eventTwo))
+                 .mapToDouble(x -> Double.parseDouble(x.getCounter())-meanEventTwo)
+                 .map(x->  (Math.pow(x, 2.00)))
+                 .map(x-> x/(sizeEvent-1))
+                 .sum();
+
+         double standard_deviationTwo = varianceTwo/sizeEvent;
+
+         double welche_test = (meanEventOne-meanEventTwo)/ (Math.sqrt(standard_deviationTwo+standard_deviationOne));
+
+
+
+
+
+
+
+
+
+
+     }
+
+
+
+
+
+
     public void getAverage(Map<Integer,PerfReport > map,String event, String type){
-        
+        NumberFormat nf = NumberFormat.getInstance(java.util.Locale.GERMAN);
+
         double sum = map.values().stream()
                 .filter(x->x.getEvent().equals(event))
                 .mapToDouble(x -> Double.parseDouble(x.getCounter()))
                 .sum();
 
-        NumberFormat nf = NumberFormat.getInstance(java.util.Locale.GERMAN);
-        double size = map.size()/3;
+
+        double sizeEvent = map.size()/4.00;
         System.out.println("\n"+"METRICS FOR "+ type);
         System.out.println("--> TOTAL: "+ event+ " "+ nf.format(sum));
-        double average = sum/size;
+        double average = sum/sizeEvent;
         System.out.println("--> MEAN: "+ event+ " "+ nf.format(average));
+
         double variance = map.values().stream()
                 .filter(x->x.getEvent().equals(event))
-                .mapToDouble(x -> Double.parseDouble(x.getCounter()))
-                .map(x->  (Math.pow(x-average, 2.00)))
+                .mapToDouble(x -> Double.parseDouble(x.getCounter())-average)
+                .map(x->  (Math.pow(x, 2.00)))
+                .map(x-> x/(sizeEvent-1))
                 .sum();
 
-        double standard_deviation = Math.sqrt(variance/1);
+        double standard_deviation = Math.sqrt(variance);
         System.out.println("-->STANDARD DEVIATION: "+ event + " "+  nf.format(standard_deviation) +"\n");
 
     }
@@ -75,8 +130,7 @@ public class PerfReport{
                 mapValue.put(i, reports.get(i));
             }
         }
-
-        // Erase the file content
+        // ERASE CONTENT
         try (BufferedWriter writer = Files.newBufferedWriter(
                 Paths.get(path),
                 StandardOpenOption.WRITE,

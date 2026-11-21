@@ -3,8 +3,8 @@ package microbenchmark;
 
 import org.json.JSONArray;
 import java.io.*;
-import java.util.HashMap;
-import java.util.Map;
+import java.lang.reflect.Array;
+import java.util.*;
 import java.util.function.Consumer;
 
 class StreamPerf implements Runnable {
@@ -33,6 +33,13 @@ class StreamPerf implements Runnable {
                     cycle_activity.cycles_l2_miss
                 c:mem_inst_retired.all_loads
                   perf list | grep -i mem
+                e: mem_load_retired.l1_hit
+                   perf list | grep -i L1 | grep -i hit
+                   perf list | grep -i L2 | grep  -i hit
+                   mem_load_retired.l2_hit
+
+                   // sudo sysctl -w kernel.perf_event_paranoid=1
+
      */
 
 
@@ -46,7 +53,7 @@ class StreamPerf implements Runnable {
             builder.command(
                     "perf", "stat",
                     "-e",
-                    "L1-dcache-load-misses,l1d_pend_miss.pending_cycles,mem_inst_retired.all_loads",
+                    "L1-dcache-load-misses,l1d_pend_miss.pending_cycles,mem_inst_retired.all_loads,mem_load_retired.l1_hit",
                     "-j",
                     "--append",
                     "-o",
@@ -90,7 +97,7 @@ class StreamPerf implements Runnable {
             builder.command(
                     "perf", "stat",
                     "-e",
-                    "l2_rqsts.miss,cycle_activity.cycles_l2_miss,mem_inst_retired.all_loads",
+                    "l2_rqsts.miss,cycle_activity.cycles_l2_miss,mem_inst_retired.all_loads,mem_load_retired.l2_hit",
                     "-j",
                     "--append",
                     "-o",
@@ -128,6 +135,23 @@ class StreamPerf implements Runnable {
     }
 
     public static void main (String[] args) throws IOException {
+        Integer[] a = {1, 2, 3, 4, 5};
+        List<Integer> arrayList = Arrays.asList(a);
+        double mean = (double) arrayList.stream().reduce(0, Integer::sum) / arrayList.size();
+        double variance = arrayList.stream()
+        .map(x-> x-mean)
+                .map(x-> Math.pow(x,2))
+                .map(x->x/4)
+        .reduce(0.0,Double::sum);
+/*
+        double variance = map.values().stream()
+                .filter(x->x.getEvent().equals(event))
+                .mapToDouble(x -> Double.parseDouble(x.getCounter())-average)
+                .map(x->  (Math.pow(x, 2.00)))
+                .sum();*/
+
+
+
         StreamPerf.extraction_L1("xz", "-k");
         StreamPerf.extraction_L2("xz", "-k");
         StreamPerf.extraction_L1("zstd", "-k");
