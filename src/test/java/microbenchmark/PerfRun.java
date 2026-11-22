@@ -3,13 +3,14 @@ package microbenchmark;
 
 import org.json.JSONArray;
 import java.io.*;
-import java.lang.reflect.Array;
 import java.util.*;
 import java.util.function.Consumer;
 
 class StreamPerf implements Runnable {
     private InputStream inputStream;
     private Consumer<String> consumer;
+    public final static double eventsCacheExtracted = 4;
+    public final static double sizeCycle = 10;
 
     public StreamPerf(InputStream inputStream, Consumer<String> consumer) {
         this.inputStream = inputStream;
@@ -38,18 +39,18 @@ class StreamPerf implements Runnable {
                    perf list | grep -i L2 | grep  -i hit
                    mem_load_retired.l2_hit
 
-                   // sudo sysctl -w kernel.perf_event_paranoid=1
+                   Privileged process sudo sysctl -w kernel.perf_event_paranoid=1
 
      */
 
 
-    public static void  extraction_L1(String compressed, String type) throws IOException {
+    public static   Map<Integer,PerfReport>  extraction_L1(String compressed, String type) throws IOException {
         ProcessBuilder builder = new ProcessBuilder();
         PerfReport pf = new PerfReport();
         Map<Integer,PerfReport> mapValue = new HashMap<>();
         JSONArray jsonArray = new JSONArray();
         int i = 0;
-        while(i <2) {
+        while(i <sizeCycle) {
             builder.command(
                     "perf", "stat",
                     "-e",
@@ -66,7 +67,7 @@ class StreamPerf implements Runnable {
             builder.redirectErrorStream(true);
             builder.directory(new File(path + "/Desktop/project_/project_Java/hello_java/welcome_java/src/test/java/microbenchmark"));
             Process process = builder.start();
-            i++;
+
 
 
             builder.directory(new File(path + "/Desktop/project_/project_Java/hello_java/welcome_java/src/test/java/microbenchmark"));
@@ -78,22 +79,26 @@ class StreamPerf implements Runnable {
             while ((line = reader.readLine()) != null) {
                 System.out.println(line);
             }
+
+            i++;
         }
         mapValue = pf.extract_info("report_l1.json");
         pf.getAverage(mapValue,"L1-dcache-load-misses", "L1");
         pf.getAverage(mapValue,"l1d_pend_miss.pending_cycles", "L1");
         pf.getAverage(mapValue,"mem_inst_retired.all_loads", "L1");
 
+        return mapValue;
+
     }
 
 
-    public static void  extraction_L2 (String compressed, String type) throws IOException {
+    public static Map<Integer,PerfReport>  extraction_L2 (String compressed, String type) throws IOException {
         ProcessBuilder builder = new ProcessBuilder();
         PerfReport pf = new PerfReport();
         Map<Integer,PerfReport> mapValue = new HashMap<>();
         JSONArray jsonArray = new JSONArray();
         int i = 0;
-        while(i <10) {
+        while(i <sizeCycle) {
             builder.command(
                     "perf", "stat",
                     "-e",
@@ -112,7 +117,6 @@ class StreamPerf implements Runnable {
             builder.redirectErrorStream(true);
             builder.directory(new File(path + "/Desktop/project_/project_Java/hello_java/welcome_java/src/test/java/microbenchmark"));
             Process process = builder.start();
-            i++;
 
 
             builder.directory(new File(path + "/Desktop/project_/project_Java/hello_java/welcome_java/src/test/java/microbenchmark"));
@@ -131,31 +135,29 @@ class StreamPerf implements Runnable {
         pf.getAverage(mapValue,"l2_rqsts.miss", "L2");
         pf.getAverage(mapValue,"cycle_activity.cycles_l2_miss", "L2");
         pf.getAverage(mapValue,"mem_inst_retired.all_loads", "L2");
+        return mapValue;
 
     }
 
     public static void main (String[] args) throws IOException {
-        Integer[] a = {1, 2, 3, 4, 5};
+     /*   Integer[] a = {1, 2, 3, 4, 5};
         List<Integer> arrayList = Arrays.asList(a);
         double mean = (double) arrayList.stream().reduce(0, Integer::sum) / arrayList.size();
         double variance = arrayList.stream()
         .map(x-> x-mean)
                 .map(x-> Math.pow(x,2))
                 .map(x->x/4)
-        .reduce(0.0,Double::sum);
-/*
-        double variance = map.values().stream()
-                .filter(x->x.getEvent().equals(event))
-                .mapToDouble(x -> Double.parseDouble(x.getCounter())-average)
-                .map(x->  (Math.pow(x, 2.00)))
-                .sum();*/
+        .reduce(0.0,Double::sum);*/
+
+        Map<Integer,PerfReport> m1 =  StreamPerf.extraction_L1("xz", "-k");
+        Map<Integer,PerfReport> m2 = StreamPerf.extraction_L2("xz", "-k");
+        /* StreamPerf.extraction_L1("zstd", "-k");
+        StreamPerf.extraction_L2("zstd", "-k");*/
 
 
-
-        StreamPerf.extraction_L1("xz", "-k");
-        StreamPerf.extraction_L2("xz", "-k");
-        StreamPerf.extraction_L1("zstd", "-k");
-        StreamPerf.extraction_L2("zstd", "-k");
+        PerfReport pf = new PerfReport();
+        pf.t_test_paired_test(m1 ,"mem_load_retired.l1_hit","L1-dcache-load-misses");
+      /*  pf.t_test_paired_test( m2, "mem_load_retired.l2_hit","l2_rqsts.miss");*/
     }
 
 }

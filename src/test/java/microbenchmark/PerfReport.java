@@ -5,16 +5,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.MappingIterator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.io.BufferedWriter;
+import org.junit.jupiter.api.Test;
+
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
 import java.text.NumberFormat;
 import java.util.*;
-
-import static org.apache.xmpbox.type.Types.Locale;
 
 public class PerfReport{
 
@@ -31,49 +27,212 @@ public class PerfReport{
         double pctRunning;
 
 
+        @Test
+    public void test_paired_test(){
+            PerfReport ps1 = new PerfReport();
+            ps1.setCounter("3");
+            ps1.setEvent("a");
+            PerfReport ps2 = new PerfReport();
+            ps2.setCounter("4");
+            ps2.setEvent("a");
+            PerfReport ps3 = new PerfReport();
+            ps3.setCounter("7");
+            ps3.setEvent("a");
 
-     public void t_test (Map<Integer,PerfReport > map,String eventOne, String eventTwo){
-         double sizeEvent = map.size()/4.00;
-         double eventOneSum = map.values().stream()
+            PerfReport ps4 = new PerfReport();
+            ps4.setCounter("2");
+            ps4.setEvent("b");
+            PerfReport ps5 = new PerfReport();
+            ps5.setCounter("4");
+            ps5.setEvent("b");
+            PerfReport ps6 = new PerfReport();
+            ps6.setCounter("6");
+            ps6.setEvent("b");
+
+            Map<Integer,PerfReport > mapEventOne = new HashMap<>();
+            mapEventOne.put(1,ps1);
+            mapEventOne.put(2,ps2);
+            mapEventOne.put(3,ps3);
+            mapEventOne.put(4,ps4);
+            mapEventOne.put(5,ps5);
+            mapEventOne.put(6,ps6);
+
+            double t = ps1.verify(mapEventOne, "a", "b");
+            assert t == 1.9999999999999998 : "t is not correct";
+
+
+
+
+
+
+        }
+
+
+
+
+    // PAIRED TEST
+    public double verify (Map<Integer,PerfReport > mapEventOne, String eventOne, String eventTwo){
+        double sizeEventPair = 3;
+        // CALCULATION MEAN
+
+
+        // MEAN PAIRED DIFFERENCES
+        double eventOneSum = mapEventOne.values().stream()
+                .filter(x->x.getEvent().equals(eventOne))
+                .mapToDouble(x -> Double.parseDouble(x.getCounter()))
+                .sum();
+
+        double eventsTwoSum = mapEventOne.values().stream()
+                .filter(x->x.getEvent().equals(eventTwo))
+                .mapToDouble(x -> Double.parseDouble(x.getCounter()))
+                .sum();
+
+        double paired_difference = eventOneSum-eventsTwoSum;
+        double difference_mean = paired_difference/(sizeEventPair);
+
+
+        List<Double> listEventOne = mapEventOne.values().stream()
+                .filter(x -> x.getEvent().equals(eventOne))
+                .map(x -> Double.parseDouble(x.getCounter()))
+                .toList();
+
+        List<Double> listEventTwo = mapEventOne.values().stream()
+                .filter(x -> x.getEvent().equals(eventTwo))
+                .map(x -> Double.parseDouble(x.getCounter()))
+                .toList();
+
+
+
+        double variance_difference = 0;
+        for (int i=0; i<listEventOne.size(); i++){
+            var d  = (listEventOne.get(i) - listEventTwo.get(i))-difference_mean;
+            var pow = Math.pow(d,2);
+                variance_difference+=pow;
+        }
+        double variance = variance_difference/(sizeEventPair-1);
+        double standardDeviation = Math.sqrt(variance);
+
+        double pairedTest = difference_mean/(standardDeviation/(Math.sqrt(sizeEventPair)));
+        return pairedTest;
+    }
+
+
+
+    // PAIRED TEST
+    public void t_test_paired_test (Map<Integer,PerfReport > mapEventOne, String eventOne, String eventTwo){
+        double sizeEventPair = mapEventOne.size()/StreamPerf.eventsCacheExtracted;
+        // CALCULATION MEAN
+
+
+        // MEAN PAIRED DIFFERENCES
+        double eventOneSum = mapEventOne.values().stream()
+                .filter(x->x.getEvent().equals(eventOne))
+                .mapToDouble(x -> Double.parseDouble(x.getCounter()))
+                .sum();
+
+        double eventsTwoSum = mapEventOne.values().stream()
+                .filter(x->x.getEvent().equals(eventTwo))
+                .mapToDouble(x -> Double.parseDouble(x.getCounter()))
+                .sum();
+
+        double paired_difference = eventOneSum-eventsTwoSum;
+        double difference_mean = paired_difference/(sizeEventPair);
+
+
+
+    /*    for (Map.Entry<Integer, PerfReport> entry : mapEventOne.entrySet()){
+            if(entry.getValue().getEvent().equals(eventOne)){
+                double c = Double.parseDouble(entry.getValue().getCounter());
+                listEventOne.add(c);
+            }
+
+                for (Map.Entry<Integer, PerfReport> entry : mapEventOne.entrySet()){
+            if(entry.getValue().getEvent().equals(eventTwo)){
+                var c = Double.parseDouble(entry.getValue().getCounter());
+                listEventTwo.add(c);
+            }
+        }
+        }*/
+
+        List<Double> listEventOne = mapEventOne.values().stream()
+                .filter(x -> x.getEvent().equals(eventOne))
+                .map(x -> Double.parseDouble(x.getCounter()))
+                .toList();
+
+
+        List<Double> listEventTwo = mapEventOne.values().stream()
+                .filter(x -> x.getEvent().equals(eventTwo))
+                .map(x -> Double.parseDouble(x.getCounter()))
+                .toList();
+
+
+
+
+        double variance_difference = 0;
+        for (int i=0; i<listEventOne.size(); i++){
+            var d  = (listEventOne.get(i) - listEventTwo.get(i))-difference_mean;
+            var pow = Math.pow(d,2);
+            variance_difference+=pow;
+        }
+        double variance = variance_difference/(sizeEventPair-1);
+        double standard_deviationDifference = Math.sqrt(variance);
+
+
+        double pairedTest = difference_mean/(standard_deviationDifference/(Math.sqrt(sizeEventPair)));
+        System.out.println( "paired test values is " + pairedTest);
+
+
+
+
+
+
+
+
+
+
+    }
+
+
+
+    // WELCH TEST
+     public void t_test (Map<Integer,PerfReport > mapEventOne,Map<Integer,PerfReport > mapEventTwo, String eventOne, String eventTwo){
+         double sizeEvent = mapEventOne.size()/StreamPerf.eventsCacheExtracted;
+            // CALCULATION MEAN
+         double eventOneSum = mapEventOne.values().stream()
                  .filter(x->x.getEvent().equals(eventOne))
                  .mapToDouble(x -> Double.parseDouble(x.getCounter()))
                  .sum();
 
-         double eventsTwoSum = map.values().stream()
+         double eventsTwoSum = mapEventTwo.values().stream()
                  .filter(x->x.getEvent().equals(eventTwo))
                  .mapToDouble(x -> Double.parseDouble(x.getCounter()))
                  .sum();
+
          double meanEventOne = eventOneSum/sizeEvent;
          double meanEventTwo = eventsTwoSum/sizeEvent;
 
-
-         double varianceOne = map.values().stream()
+         //CALCULATION VARIANCE
+         double varianceOne = mapEventOne.values().stream()
                  .filter(x->x.getEvent().equals(eventOne))
                  .mapToDouble(x -> Double.parseDouble(x.getCounter())-meanEventOne)
                  .map(x->  (Math.pow(x, 2.00)))
                  .map(x-> x/(sizeEvent-1))
                  .sum();
 
-         double standard_deviationOne = (varianceOne/sizeEvent);
-
-         double varianceTwo = map.values().stream()
+         double welcheOne = (varianceOne/sizeEvent);
+        
+         double varianceTwo = mapEventTwo.values().stream()
                  .filter(x->x.getEvent().equals(eventTwo))
                  .mapToDouble(x -> Double.parseDouble(x.getCounter())-meanEventTwo)
                  .map(x->  (Math.pow(x, 2.00)))
                  .map(x-> x/(sizeEvent-1))
                  .sum();
 
-         double standard_deviationTwo = varianceTwo/sizeEvent;
+         double welcheTWo = varianceTwo/sizeEvent;
 
-         double welche_test = (meanEventOne-meanEventTwo)/ (Math.sqrt(standard_deviationTwo+standard_deviationOne));
+         double welche_test = (meanEventOne-meanEventTwo)/ (Math.sqrt(welcheTWo+welcheOne));
 
-
-
-
-
-
-
-
+         System.out.println("The t-value is for unpaired test is "+eventOne+ " " +welche_test);
 
 
      }
@@ -92,7 +251,7 @@ public class PerfReport{
                 .sum();
 
 
-        double sizeEvent = map.size()/4.00;
+        double sizeEvent = map.size()/StreamPerf.eventsCacheExtracted;
         System.out.println("\n"+"METRICS FOR "+ type);
         System.out.println("--> TOTAL: "+ event+ " "+ nf.format(sum));
         double average = sum/sizeEvent;
@@ -130,14 +289,14 @@ public class PerfReport{
                 mapValue.put(i, reports.get(i));
             }
         }
-        // ERASE CONTENT
+      /*  // ERASE CONTENT
         try (BufferedWriter writer = Files.newBufferedWriter(
                 Paths.get(path),
                 StandardOpenOption.WRITE,
                 StandardOpenOption.TRUNCATE_EXISTING)) {
 
             writer.write("");
-        }
+        }*/
         return mapValue;
 
     }
