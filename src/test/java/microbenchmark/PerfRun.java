@@ -2,27 +2,16 @@ package microbenchmark;
 
 
 import org.json.JSONArray;
+import org.mockito.Mockito;
+
 import java.io.*;
 import java.util.*;
 import java.util.function.Consumer;
 
-class StreamPerf implements Runnable {
-    private InputStream inputStream;
-    private Consumer<String> consumer;
+class StreamPerf  {
     public final static double eventsCacheExtracted = 4;
     public final static double sizeCycle = 10;
 
-    public StreamPerf(InputStream inputStream, Consumer<String> consumer) {
-        this.inputStream = inputStream;
-        this.consumer = consumer;
-    }
-
-    @Override
-    public void run() {
-        // READ TEXT FROM A CHARACTER INPUT
-        new BufferedReader(new InputStreamReader(inputStream)).lines()
-                .forEach(consumer);
-    }
 
     /*
     TASK ONE :  a: perf list | grep -i l1
@@ -44,11 +33,10 @@ class StreamPerf implements Runnable {
      */
 
 
-    public static   Map<Integer,PerfReport>  extraction_L1(String compressed, String type) throws IOException {
+    public  Map<Integer,PerfReport>     extraction_L1(String compressed, String type) throws IOException, InterruptedException {
         ProcessBuilder builder = new ProcessBuilder();
         PerfReport pf = new PerfReport();
         Map<Integer,PerfReport> mapValue = new HashMap<>();
-        JSONArray jsonArray = new JSONArray();
         int i = 0;
         while(i <sizeCycle) {
             builder.command(
@@ -61,25 +49,15 @@ class StreamPerf implements Runnable {
                     "report_l1.json",
                     compressed, type,
                     "05_InfrastructureObservability.pdf"
-
             );
             String path = System.getProperty("user.home");
-            builder.redirectErrorStream(true);
             builder.directory(new File(path + "/Desktop/project_/project_Java/hello_java/welcome_java/src/test/java/microbenchmark"));
-            Process process = builder.start();
-
-
-
-            builder.directory(new File(path + "/Desktop/project_/project_Java/hello_java/welcome_java/src/test/java/microbenchmark"));
-            BufferedReader reader = new BufferedReader(
-                    new InputStreamReader(process.getInputStream())
-            );
-
-            String line;
-            while ((line = reader.readLine()) != null) {
-                System.out.println(line);
+            try {
+                Process process = builder.start();
+                int code = process.waitFor();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
-
             i++;
         }
         mapValue = pf.extract_info("report_l1.json");
@@ -92,11 +70,10 @@ class StreamPerf implements Runnable {
     }
 
 
-    public static Map<Integer,PerfReport>  extraction_L2 (String compressed, String type) throws IOException {
+    public  Map<Integer,PerfReport>  extraction_L2 (String compressed, String type) throws IOException, InterruptedException {
         ProcessBuilder builder = new ProcessBuilder();
         PerfReport pf = new PerfReport();
         Map<Integer,PerfReport> mapValue = new HashMap<>();
-        JSONArray jsonArray = new JSONArray();
         int i = 0;
         while(i <sizeCycle) {
             builder.command(
@@ -109,25 +86,22 @@ class StreamPerf implements Runnable {
                     "report_l2.json",
                     compressed, type,
                     "05_InfrastructureObservability.pdf"
-
-
             );
 
             String path = System.getProperty("user.home");
-            builder.redirectErrorStream(true);
+          //  builder.redirectErrorStream(true);
             builder.directory(new File(path + "/Desktop/project_/project_Java/hello_java/welcome_java/src/test/java/microbenchmark"));
             Process process = builder.start();
+            int code = process.waitFor();
 
+           /* try (BufferedReader reader = new BufferedReader(
+                    new InputStreamReader(process.getInputStream()))) {
 
-            builder.directory(new File(path + "/Desktop/project_/project_Java/hello_java/welcome_java/src/test/java/microbenchmark"));
-            BufferedReader reader = new BufferedReader(
-                    new InputStreamReader(process.getInputStream())
-            );
-
-            String line;
-            while ((line = reader.readLine()) != null) {
-                System.out.println(line);
-            }
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    System.out.println(line);
+                }
+            }*/
 
             i++;
         }
@@ -139,25 +113,21 @@ class StreamPerf implements Runnable {
 
     }
 
-    public static void main (String[] args) throws IOException {
-     /*   Integer[] a = {1, 2, 3, 4, 5};
-        List<Integer> arrayList = Arrays.asList(a);
-        double mean = (double) arrayList.stream().reduce(0, Integer::sum) / arrayList.size();
-        double variance = arrayList.stream()
-        .map(x-> x-mean)
-                .map(x-> Math.pow(x,2))
-                .map(x->x/4)
-        .reduce(0.0,Double::sum);*/
+    public static void main (String[] args) throws IOException, InterruptedException {
 
-        Map<Integer,PerfReport> m1 =  StreamPerf.extraction_L1("xz", "-k");
-        Map<Integer,PerfReport> m2 = StreamPerf.extraction_L2("xz", "-k");
-        /* StreamPerf.extraction_L1("zstd", "-k");
-        StreamPerf.extraction_L2("zstd", "-k");*/
+        StreamPerf s = new StreamPerf();
+        Map<Integer,PerfReport> m1 =  s.extraction_L1("xz", "-f");
+        Map<Integer,PerfReport> m2 = s.extraction_L2("xz", "-f");
+        Map<Integer,PerfReport> m3 = s.extraction_L1("zstd", "-f");
+        Map<Integer,PerfReport> m4 = s.extraction_L2("zstd", "-f");
 
 
         PerfReport pf = new PerfReport();
+        pf.t_test_paired_test(m3 ,"mem_load_retired.l1_hit","L1-dcache-load-misses");
+        pf.t_test_paired_test( m4, "mem_load_retired.l2_hit","l2_rqsts.miss");
         pf.t_test_paired_test(m1 ,"mem_load_retired.l1_hit","L1-dcache-load-misses");
-      /*  pf.t_test_paired_test( m2, "mem_load_retired.l2_hit","l2_rqsts.miss");*/
+        pf.t_test_paired_test( m2, "mem_load_retired.l2_hit","l2_rqsts.miss");
     }
+
 
 }

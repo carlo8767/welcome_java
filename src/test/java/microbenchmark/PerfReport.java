@@ -7,8 +7,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.junit.jupiter.api.Test;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.text.NumberFormat;
 import java.util.*;
 
@@ -138,22 +142,6 @@ public class PerfReport{
         double paired_difference = eventOneSum-eventsTwoSum;
         double difference_mean = paired_difference/(sizeEventPair);
 
-
-
-    /*    for (Map.Entry<Integer, PerfReport> entry : mapEventOne.entrySet()){
-            if(entry.getValue().getEvent().equals(eventOne)){
-                double c = Double.parseDouble(entry.getValue().getCounter());
-                listEventOne.add(c);
-            }
-
-                for (Map.Entry<Integer, PerfReport> entry : mapEventOne.entrySet()){
-            if(entry.getValue().getEvent().equals(eventTwo)){
-                var c = Double.parseDouble(entry.getValue().getCounter());
-                listEventTwo.add(c);
-            }
-        }
-        }*/
-
         List<Double> listEventOne = mapEventOne.values().stream()
                 .filter(x -> x.getEvent().equals(eventOne))
                 .map(x -> Double.parseDouble(x.getCounter()))
@@ -164,8 +152,6 @@ public class PerfReport{
                 .filter(x -> x.getEvent().equals(eventTwo))
                 .map(x -> Double.parseDouble(x.getCounter()))
                 .toList();
-
-
 
 
         double variance_difference = 0;
@@ -180,15 +166,6 @@ public class PerfReport{
 
         double pairedTest = difference_mean/(standard_deviationDifference/(Math.sqrt(sizeEventPair)));
         System.out.println( "paired test values is " + pairedTest);
-
-
-
-
-
-
-
-
-
 
     }
 
@@ -274,6 +251,7 @@ public class PerfReport{
         ObjectMapper mapper = new ObjectMapper();
         Map<Integer,PerfReport> mapValue = new HashMap<>();
         String path = "/home/robothg/Desktop/project_/project_Java/hello_java/welcome_java/src/test/java/microbenchmark/"+name_file;
+        // HERE THE ERRORR
         PerfReport pf = mapper.readValue(new File(path), PerfReport.class);
         List<PerfReport> reports = new ArrayList<>();
 
@@ -289,14 +267,17 @@ public class PerfReport{
                 mapValue.put(i, reports.get(i));
             }
         }
-      /*  // ERASE CONTENT
+        // ERASE CONTENT
+
+
+        System.out.println(path);
         try (BufferedWriter writer = Files.newBufferedWriter(
                 Paths.get(path),
                 StandardOpenOption.WRITE,
                 StandardOpenOption.TRUNCATE_EXISTING)) {
 
             writer.write("");
-        }*/
+        }
         return mapValue;
 
     }
